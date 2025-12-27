@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Widgets/gander_container.dart';
+import 'package:flutter_application_1/Widgets/info_container.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isMale = false;
+  bool isFeMale = false;
+  int height = 50;
+  int weight = 30;
+  int age = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +22,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Color(0xff1C2135),
       appBar: AppBar(
         title: Text(
-          "Bmi Calculator",
+          "Bmi calculator",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
@@ -26,52 +39,28 @@ class HomeScreen extends StatelessWidget {
             //gander row
             Row(
               children: [
-                Expanded(
-                  child: Container(
-                    height: 180,
-                    width: 155,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Color(0xff24263B),
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(Icons.male, size: 144, color: Colors.white),
-                        Text(
-                          "Male",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                GanderContainer(
+                  title: "male",
+                  icon: Icons.male,
+                  color: isMale ? Colors.red : Color(0xff24263B),
+                  onTap: () {
+                    setState(() {
+                      isMale = true;
+                      isFeMale = false;
+                    });
+                  },
                 ),
                 SizedBox(width: 9),
-                Expanded(
-                  child: Container(
-                    height: 180,
-                    width: 155,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Color(0xff333244),
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(Icons.female, size: 144, color: Colors.white),
-                        Text(
-                          "female",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                GanderContainer(
+                  title: "female",
+                  icon: Icons.female,
+                  color: isFeMale ? Colors.red : Color(0xff333244),
+                  onTap: () {
+                    setState(() {
+                      isMale = false;
+                      isFeMale = true;
+                    });
+                  },
                 ),
               ],
             ),
@@ -98,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text: "150",
+                          text: height.toString(),
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -121,9 +110,11 @@ class HomeScreen extends StatelessWidget {
                     max: 300,
                     activeColor: Color(0xffE83D67),
                     inactiveColor: Colors.white,
-                    value: 200,
+                    value: height.toDouble(),
                     onChanged: (value) {
-                      print(value);
+                      setState(() {
+                        height = value.toInt();
+                      });
                     },
                   ),
                 ],
@@ -132,112 +123,41 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 29),
             Row(
               children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Color(0xff24263B),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "Weight",
-                          style: TextStyle(
-                            color: Color(0xff8B8C9E),
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          "60",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        SizedBox(height: 21),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-                          children: [
-                            FloatingActionButton.small(
-                              onPressed: () {
-                                print("remove");
-                              },
-                              child: Icon(Icons.remove, color: Colors.white),
-                              backgroundColor: Color(0xff8B8C9E),
-                              shape: CircleBorder(),
-                            ),
-                            FloatingActionButton.small(
-                              onPressed: () {
-                                print("add");
-                              },
-                              child: Icon(Icons.add, color: Colors.white),
-                              backgroundColor: Color(0xff8B8C9E),
-                              shape: CircleBorder(),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                InfoContainer(
+                  title: "Weight",
+                  number: weight,
+                  color: Color(0xff24263B),
+                  increaseOnPressed: () {
+                    if (weight < 100) {
+                      setState(() {
+                        weight++;
+                      });
+                    }
+                  },
+                  decreaseOnPressed: () {
+                    setState(() {
+                      weight--;
+                    });
+                  },
                 ),
                 SizedBox(width: 9),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Color(0xff333244),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "age",
-                          style: TextStyle(
-                            color: Color(0xff8B8C9E),
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          "25",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        SizedBox(height: 21),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-                          children: [
-                            FloatingActionButton.small(
-                              onPressed: () {
-                                print("remove");
-                              },
-                              child: Icon(Icons.remove, color: Colors.white),
-                              backgroundColor: Color(0xff8B8C9E),
-                              shape: CircleBorder(),
-                            ),
-                            FloatingActionButton.small(
-                              onPressed: () {
-                                print("add");
-                              },
-                              child: Icon(Icons.add, color: Colors.white),
-                              backgroundColor: Color(0xff8B8C9E),
-                              shape: CircleBorder(),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                InfoContainer(
+                  title: "Age",
+                  number: age,
+                  color: Color(0xff333244),
+                  increaseOnPressed: () {
+                    if (age > 10) {}
+                    setState(() {
+                      age++;
+                    });
+                  },
+                  decreaseOnPressed: () {
+                    if (age > 10) {
+                      setState(() {
+                        age--;
+                      });
+                    }
+                  },
                 ),
               ],
             ),
