@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Widgets/custom_app_bar.dart';
 
 class ResultScreen extends StatelessWidget {
-  const ResultScreen({super.key});
+  final double result;
+  ResultScreen({super.key, required this.result});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1C2135),
-      appBar: AppBar(
-        title: Text(
-          "Bmi Calculator",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Color(0xff24263B),
-      ),
+      appBar: CustomAppBar(withLeading: true),
       body: Padding(
         padding: EdgeInsetsGeometry.symmetric(horizontal: 26, vertical: 20),
         child: Column(
@@ -52,7 +42,7 @@ class ResultScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 40),
                     child: Text(
-                      "Normal",
+                      getStatusText(),
                       style: TextStyle(
                         color: Color(0xff21BF73),
                         fontWeight: FontWeight.w700,
@@ -62,7 +52,7 @@ class ResultScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 33),
                   Text(
-                    "19.2",
+                    result.toStringAsFixed(2),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -71,21 +61,13 @@ class ResultScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 60),
                   Text(
-                    "You Have a Normal Body Weight,",
+                    statusBody,
                     style: TextStyle(
                       color: Color(0xff8B8C9E),
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                     ),
-                  ),
-
-                  Text(
-                    "Good Jop.",
-                    style: TextStyle(
-                      color: Color(0xff8B8C9E),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -94,26 +76,27 @@ class ResultScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(12),
-          bottomRight: Radius.circular(12),
-        ),
-        child: BottomAppBar(
-          color: Color(0xffE83D67),
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: Text(
-              'calculator',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 32,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
+  }
+
+  String statusBody = "";
+
+  String getStatusText() {
+    if (result < 18.5) {
+      statusBody =
+          "You are underweight. Consider a balanced diet to gain weight healthily.";
+      return "Under Weight";
+    } else if (result >= 18.5 && result < 25) {
+      statusBody =
+          "Your weight is normal. Keep maintaining a healthy lifestyle.";
+      return "Normal";
+    } else if (result >= 25 && result < 30) {
+      statusBody = "You are overweight. Try balancing your diet and exercise.";
+      return "Over Weight";
+    } else {
+      statusBody =
+          "You are obese. It is recommended to consult a doctor or nutrition specialist.";
+      return "Obese";
+    }
   }
 }

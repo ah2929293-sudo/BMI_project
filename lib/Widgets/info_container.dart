@@ -50,12 +50,14 @@ class InfoContainer extends StatelessWidget {
 
               children: [
                 FloatingActionButton.small(
+                  heroTag: "$title 1",
                   onPressed: decreaseOnPressed,
                   backgroundColor: Color(0xff8B8C9E),
                   shape: CircleBorder(),
                   child: Icon(Icons.remove, color: Colors.white),
                 ),
                 FloatingActionButton.small(
+                  heroTag: "$title 2",
                   onPressed: increaseOnPressed,
                   backgroundColor: Color(0xff8B8C9E),
                   shape: CircleBorder(),
